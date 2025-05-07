@@ -2,6 +2,7 @@ from watchdog.observers import Observer
 from watchdog.events import FileSystemEventHandler
 from queue import Queue
 import os
+
 def dir_loop(dir:str):
     result=[]
     for folder_name, subfolders, filenames in os.walk(dir):
