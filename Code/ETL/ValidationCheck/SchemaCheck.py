@@ -11,5 +11,5 @@ class SchemaCheck(ABC):
         self.df=df
     @abstractmethod
     def check(self) -> bool:
-        """Check Mehod"""
+        """Check Method"""
         pass

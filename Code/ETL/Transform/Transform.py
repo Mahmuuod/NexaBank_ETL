@@ -43,6 +43,13 @@ class Transformer:
         dataframe['total'] = dataframe['amount_due'] + dataframe['fine']
         print(dataframe)
         return dataframe
+    
+    def transform_billing(self, dataframe):
+        dataframe = self.transform_billing_fully_paid(dataframe)
+        dataframe = self.transform_billing_dept(dataframe)
+        dataframe = self.transform_billing_late_days(dataframe)
+        dataframe = self.transform_billing_total(dataframe)
+        return dataframe
 
 transformer = Transformer()
-transformed_df = transformer.transform_billing_late_days(billing_df)
+transformed_df = transformer.transform_billing(billing_df)
