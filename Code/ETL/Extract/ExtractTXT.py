@@ -2,29 +2,33 @@ import pandas as pd
 from Extract.Extractor import Extractor
 
 class ExtractTXT(Extractor):
+    """Class For Extracting TXT"""
 
-    def __init__(self, fileDir, delimiter=None, encoding='utf-8'):
-
-        self.fileDir = fileDir
-        self.delimiter = delimiter
-        self.encoding = encoding
+    def __init__(self,fileDir):
+        self.fileDir=fileDir
 
     def extract(self) -> pd.DataFrame:
         try:
-            # Try to read the file with pandas
-            if self.delimiter:
-                # If delimiter is specified, use it
-                df = pd.read_csv(self.fileDir, delimiter=self.delimiter, encoding=self.encoding)
+            # Read the TXT file
+            with open(self.fileDir, 'r') as file:
+                lines = file.readlines()
+            
+            # Process lines into a list of dictionaries
+            data = []
+            headers = lines[0].strip().split() if lines else []
+            
+            for line in lines[1:]:
+                values = line.strip().split()
+                if len(values) == len(headers):
+                    row_dict = dict(zip(headers, values))
+                    data.append(row_dict)
+            
+            # Convert to DataFrame
+            if data:
+                return pd.DataFrame(data)
             else:
-                # Try to detect the delimiter automatically
-                df = pd.read_csv(self.fileDir, sep=None, engine='python', encoding=self.encoding)
-            
-            return df
-            
+                raise ValueError("No valid data found in the TXT file")
+                
         except Exception as e:
-            # If pandas reading fails, try reading as fixed-width format
-            try:
-                df = pd.read_fwf(self.fileDir, encoding=self.encoding)
-                return df
-            except Exception as e:
-                raise Exception(f"Failed to extract data from text file: {str(e)}")
+            print(f"Error extracting TXT data: {str(e)}")
+            raise
