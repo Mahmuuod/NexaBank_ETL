@@ -1,0 +1,6 @@
+2025-05-11 23:37:23 - INFO - Started test_function at 2025-05-11 23:37:23.535275
+2025-05-11 23:37:23 - INFO - Processing file: test_logging.txt
+2025-05-11 23:37:23 - INFO - File contains 3 lines
+2025-05-11 23:37:23 - INFO - Finished test_function at 2025-05-11 23:37:23.557701
+2025-05-11 23:37:23 - INFO - Started failing_function at 2025-05-11 23:37:23.558655
+2025-05-11 23:37:23 - ERROR - Error in failing_function: division by zero
