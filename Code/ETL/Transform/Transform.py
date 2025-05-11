@@ -34,6 +34,13 @@ class Transformer:
     def transform_billing_late_days(self, dataframe):
         days = dataframe["payment_date"].str.split("-").str[2].astype(int)
         dataframe['late_days'] = (days - 1)
+        dataframe['fine'] = dataframe['late_days'] * 5.15
+        dataframe['fine'] = dataframe['fine'].round(2)
+        print(dataframe)
+        return dataframe
+    
+    def transform_billing_total(self, dataframe):
+        dataframe['total'] = dataframe['amount_due'] + dataframe['fine']
         print(dataframe)
         return dataframe
 
