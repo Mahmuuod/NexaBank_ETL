@@ -1,22 +1,10 @@
+from datetime import datetime
 import pandas as pd
-
-data = {
-    'bill_id': ['BILL6651468', 'BILL8554086', 'BILL7781614', 'BILL8062854', 'BILL9167319'],
-    'customer_id': ['CUST000001', 'CUST000001', 'CUST000002', 'CUST000002', 'CUST000003'],
-    'month': ['2023-01', '2023-02', '2023-01', '2023-02', '2023-01'],
-    'amount_due': [270.37, 190.41, 126.54, 254.34, 54.91],
-    'amount_paid': [270.37, 165.16, 126.54, 254.34, 54.91],
-    'payment_date': ['2023-01-01', '2023-02-08', '2023-01-01', '2023-02-01', '2023-01-01']
-}
-
-billing_df = pd.DataFrame(data)
-print("=== Original DataFrame ===")
-print(billing_df)
-
-
 class Transformer:
     def __init__(self):
-        pass
+        self.processing_time = datetime.now()
+        self.partition_date = self.processing_time.strftime("%Y-%m-%d")
+        self.partition_hour = self.processing_time.strftime("%H")
     
     def transform_billing_fully_paid(self, dataframe):
 
@@ -50,6 +38,58 @@ class Transformer:
         dataframe = self.transform_billing_late_days(dataframe)
         dataframe = self.transform_billing_total(dataframe)
         return dataframe
+    
+    def add_data_quality_columns(self, df)-> pd.DataFrame:
+        """Add common data quality columns to all dataframes"""
+        df['processing_time'] = self.processing_time
+        df['partition_date'] = self.partition_date
+        df['partition_hour'] = self.partition_hour
+        return df
+    
+    
+    def customer_transformations(self,df:pd.DataFrame)-> pd.DataFrame:
+        df["tenure"]=self.processing_time.year - pd.to_datetime(df["account_open_date"]).dt.year
 
-transformer = Transformer()
-transformed_df = transformer.transform_billing(billing_df)
+        def loyality(value):
+            if value>5:
+                return "Loyal"
+            elif value >1:
+                return "Newcomer"
+            else:
+                return "Normal"
+        df["customer_segment"]=df["tenure"].map(loyality)
+        df=self.add_data_quality_columns(df)
+        return df
+    
+    def tickets_transformations(self,df:pd.DataFrame)-> pd.DataFrame:
+       df["age"]=self.processing_time - pd.to_datetime(df["complaint_date"])
+       df=self.add_data_quality_columns(df)
+
+       return df["age"].dt.days
+
+    def transactions_transformations(self,df:pd.DataFrame)-> pd.DataFrame:
+       def safe_int(x):
+        try:
+            return int(x)
+        except:
+            return -1
+        
+       df["cost"]=(df["transaction_amount"].apply(safe_int)*0.001)+0.50
+       df["total_amount"]=df["transaction_amount"]+df["cost"]
+       df=self.add_data_quality_columns(df)
+
+       return df
+
+    def loans_transformations(self,df:pd.DataFrame)-> pd.DataFrame:
+
+       df["age"]=self.processing_time-pd.to_datetime(df["utilization_date"])
+       df["age"]=df["age"].dt.days
+       df["annual_cost"]=(df["amount_utilized"]/5)+1000
+       df=self.add_data_quality_columns(df)
+
+       return df
+    
+
+
+
+    
