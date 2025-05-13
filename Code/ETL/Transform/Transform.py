@@ -79,7 +79,7 @@ class Transformer:
        df=self.add_data_quality_columns(df)
 
        return df
-
+ 
     def loans_transformations(self,df:pd.DataFrame)-> pd.DataFrame:
 
        df["age"]=self.processing_time-pd.to_datetime(df["utilization_date"])
