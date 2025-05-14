@@ -63,7 +63,8 @@ class Transformer:
        df["age"]=self.processing_time - pd.to_datetime(df["complaint_date"])
        df=self.add_data_quality_columns(df)
 
-       return df["age"].dt.days
+       df["age"]= df["age"].dt.days
+       return df
 
     def transactions_transformations(self,df:pd.DataFrame)-> pd.DataFrame:
        def safe_int(x):

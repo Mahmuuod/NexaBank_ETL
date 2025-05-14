@@ -16,15 +16,15 @@ from ETL.ValidationCheck.TransactionsCheck import *
 import threading
 from pathlib import Path
 
-
+landing=os.getcwd()+'/incoming_data'
 write=LoadCSV()
 csv_extractor=ExtractCSV()
 txt_extractor=ExtractTXT()
 json_extractor=ExtractJSON()
 
 def general_extractor(dir:str):
-
     file_format=dir.split(".")[1]
+
     print(file_format)
     if file_format=="csv":
         return csv_extractor.extract(dir)
@@ -60,7 +60,7 @@ def app(dir: str, df=None):
             new_df = transform.loans_transformations(new_df)
             state, key = Encrypt.encrypt(new_df, "loan_reason")  # encrypt
             file_name = "Loan"
-            print(new_df)
+
         elif CustomerCheck(new_df).check():
             new_df = transform.customer_transformations(new_df)
             file_name = "Customer"
@@ -92,86 +92,74 @@ def app(dir: str, df=None):
             load_thread = threading.Thread(target=thread_func)  # Now matches the defined function
             load_thread.start()
 
+def get_files(first_dir,second_dir)->pd.DataFrame:
+    result_df=[]
+    parent_dir = f"./Transformed_csv/{first_dir}/{second_dir}"
+    files=os.listdir(parent_dir)
+    files_count=len(files)
 
-landing=os.getcwd()+'/incoming_data'
+
+    if files_count==5:
+        for i in range(files_count):
+            files[i]=parent_dir+"/"+files[i]
+        for file in files:
+            result_df.append(pd.read_csv(file))
+    return result_df
+
+def analysis(list:list[pd.DataFrame]):
+    count=Churn(card_df=list[0],customer_df=list[1],loan_df=list[2],ticket_df=list[3],transaction_df=list[4])
+    print(count.count_charners())
 def main():
     observer,event_handler=watchDir(landing)
     try :
         while True:
             if event_handler.captured_path:
                 file = event_handler.captured_path.get()
+
                 print(f"Detected file path: {file}")
                 time.sleep(3)  # Wait for 1 second to ensure the file is fully written
                 changed_file = Path(file).as_posix()
+                path_array=changed_file.split("/")
+                first_dir=path_array[-3]
+                second_dir=path_array[-2]
                 print(f"Normalized file path: {changed_file}")
                 
                 app(changed_file)
+                time.sleep(2)
+                transformed_files=get_files(first_dir,second_dir)
+
+                files_count=len(transformed_files)
+                print(files_count)
+                if files_count==5 :
+                    analysis(transformed_files)
             time.sleep(1)
+
+
     except:
         while True:
             if event_handler.captured_path:
                 file = event_handler.captured_path.get()
+
                 print(f"Detected file path: {file}")
                 time.sleep(3)  # Wait for 1 second to ensure the file is fully written
                 changed_file = Path(file).as_posix()
+                path_array=changed_file.split("/")
+                first_dir=path_array[-3]
+                second_dir=path_array[-2]
                 print(f"Normalized file path: {changed_file}")
                 
                 app(changed_file)
+                time.sleep(2)
+                transformed_files=get_files(first_dir,second_dir)
+
+                files_count=len(transformed_files)
+                print(files_count)
+                if files_count==5 :
+                    analysis(transformed_files)
             time.sleep(1)
-
-
-
 
 
 if __name__=="__main__":
     main()
 
 
-
-
-
-"""
-    transform=Transformer()
-    cards_df=general_extractor("./incoming_data/2025-04-18/14/credit_cards_billing.csv")
-    cards_df=transform.transform_billing(cards_df)
-
-
-    loans_df=general_extractor("./incoming_data/2025-04-18/14/loans.txt")
-    loans_df=transform.loans_transformations(loans_df)
-    #write=LoadCSV()
-    #write.load(dir,df)  store state of encryption
-
-    tickets_df=general_extractor("./incoming_data/2025-04-18/14/support_tickets.csv")
-    tickets_df=transform.tickets_transformations(tickets_df)
-
-    transacts_df=general_extractor("./incoming_data/2025-04-18/14/transactions.json")
-    transacts_df=transform.transactions_transformations(transacts_df)
-
-    customer_df=general_extractor("./incoming_data/2025-04-18/14/customer_profiles.csv")
-    customer_df=transform.customer_transformations(customer_df)
-
-
-    transform=Transformer()
-cards_df=general_extractor("./incoming_data/2025-04-18/14/credit_cards_billing.csv")
-check_card=CardCheck(cards_df)
-if check_card.check():
-    print("true")
-else:
-    print("false")
-cards_df=transform.transform_billing(cards_df)
-
-
-loans_df=general_extractor("./incoming_data/2025-04-18/14/loans.txt")
-loans_df=transform.loans_transformations(loans_df)
-#write=LoadCSV()
-#write.load(dir,df)  store state of encryption
-
-tickets_df=general_extractor("./incoming_data/2025-04-18/14/support_tickets.csv")
-tickets_df=transform.tickets_transformations(tickets_df)
-
-transacts_df=general_extractor("./incoming_data/2025-04-18/14/transactions.json")
-transacts_df=transform.transactions_transformations(transacts_df)
-
-customer_df=general_extractor("./incoming_data/2025-04-18/14/customer_profiles.csv")
-customer_df=transform.customer_transformations(customer_df)
-"""
