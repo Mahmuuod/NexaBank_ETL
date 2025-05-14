@@ -6,14 +6,21 @@ import os
 sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
 import logs
 from logs import log_start_end
+from Code.send_email import *
 
 
 class LoansCheck(SchemaCheck):
 
     @log_start_end
     def check(self):
+        email = EmailSender()
+
         if self.df.empty:
             logging.error("Loans DataFrame is empty - rejecting file")
+            email.send_email(
+                subject="Loans Check Validation",
+                body="Loans DataFrame is empty - rejecting file"
+            )
             return False
         self.df.columns = self.df.columns.str.strip()
 
@@ -21,6 +28,10 @@ class LoansCheck(SchemaCheck):
 
         missing_columns = [col for col in expected_columns if col not in self.df.columns]
         if missing_columns:
+            email.send_email(
+                subject="Loans Check Validation",
+                body="Missing required columns in loans data - rejecting file"
+            )
             logging.error(
                 f"Missing required columns in loans data: {missing_columns} - rejecting file\n"
                 f"Actual columns found: {self.df.columns.tolist()}"
@@ -28,6 +39,10 @@ class LoansCheck(SchemaCheck):
             return False
 
         if len(self.df) < 1:
+            email.send_email(
+                subject="Loans Check Validation",
+                body="Loans DataFrame has no rows  - rejecting file"
+            )
             logging.error("Loans DataFrame has no rows - rejecting file")
             return False
 
@@ -45,6 +60,10 @@ class LoansCheck(SchemaCheck):
                 type_errors.append(f"{col} (expected {expected_dtype}, got {self.df[col].dtype})")
 
         if type_errors:
+            email.send_email(
+                subject="Loans Check Validation",
+                body="Type mismatches in loans data - rejecting file"
+            )
             logging.error(f"Type mismatches in loans data: {', '.join(type_errors)} - rejecting file")
             return False
 

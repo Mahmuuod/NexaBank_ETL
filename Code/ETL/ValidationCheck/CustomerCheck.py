@@ -5,13 +5,19 @@ import os
 sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
 import logs 
 from logs import log_start_end
+from Code.send_email import *
 
 class CustomerCheck(SchemaCheck):
 
     @log_start_end 
     def check(self):
+        email = EmailSender()
 
         if self.df.empty:
+            email.send_email(
+                subject="Customer Check Validation",
+                body="Customer profiles DataFrame is empty - rejecting file"
+            )
             logging.error("DataFrame is empty - rejecting file")
             return False
         
@@ -20,10 +26,18 @@ class CustomerCheck(SchemaCheck):
         missing_columns = [col for col in expected_columns if col not in self.df.columns]
         
         if missing_columns:
+            email.send_email(
+                subject="Customer Check Validation",
+                body="Missing required columns - rejecting file"
+            )
             logging.error(f"Missing required columns: {missing_columns} - rejecting file")
             return False
         
         if len(self.df) < 1:
+            email.send_email(
+                subject="Customer Check Validation",
+                body="DataFrame has no rows - rejecting file"
+            )
             logging.error("DataFrame has no rows - rejecting file")
             return False
             
@@ -44,6 +58,10 @@ class CustomerCheck(SchemaCheck):
                 type_errors.append(f"{col} (expected {dtype}, got {self.df[col].dtype})")
         
         if type_errors:
+            email.send_email(
+                subject="Customer Check Validation",
+                body="Type mismatches: check logs - rejecting file"
+            )
             logging.error(f"Type mismatches: {', '.join(type_errors)} - rejecting file")
             return False
             
