@@ -1,7 +1,10 @@
 from datetime import datetime
 import pandas as pd
+import sys
+import os
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..', '..')))
 from Code.logs import *
-from Utilities.Encryption import *
+from Code.Utilities.Encryption import *
 
 class Transformer:
     def __init__(self):
@@ -69,8 +72,9 @@ class Transformer:
        df["age"]=self.processing_time - pd.to_datetime(df["complaint_date"])
        logging.info("Tickets Data is Transformed Successfully")
        df=self.add_data_quality_columns(df)
-       logging.info("Quality Column is added to Tickets Successfully")
-       return df["age"].dt.days
+
+       df["age"]= df["age"].dt.days
+       return df
 
     @log_start_end
     def transactions_transformations(self,df:pd.DataFrame)-> pd.DataFrame:

@@ -1,7 +1,7 @@
 import random as rn
 import string as s
 import pandas as pd
-from ETL.Load.LoadCSV import LoadCSV
+
 class Encryption:
 
     """You Can use this class if you want to encrypt a dataFrame with ceaser ciprher"""
