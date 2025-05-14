@@ -2,9 +2,9 @@ from datetime import datetime
 import pandas as pd
 import sys
 import os
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..')))
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..', '..')))
 from Code.logs import *
-from Utilities.Encryption import *
+from Code.Utilities.Encryption import *
 
 class Transformer:
     def __init__(self):
