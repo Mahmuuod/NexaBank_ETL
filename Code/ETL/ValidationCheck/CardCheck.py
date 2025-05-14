@@ -12,14 +12,8 @@ class CardCheck(SchemaCheck):
 
     @log_start_end
     def check(self):
-        email = EmailSender()
-  
         if self.df.empty:
             logging.error("Credit card billing DataFrame is empty - rejecting file")
-            email.send_email(
-                subject="Card Check Validation",
-                body="Credit card billing DataFrame is empty - rejecting file"
-            )
             return False
         
         expected_columns = ['bill_id', 'customer_id', 'month','amount_due', 'amount_paid', 'payment_date']
@@ -27,19 +21,11 @@ class CardCheck(SchemaCheck):
         missing_columns = [col for col in expected_columns if col not in self.df.columns]
         
         if missing_columns:
-            email.send_email(
-                subject="Card Check Validation",
-                body="Missing required columns in credit card data - rejecting file"
-            )
             logging.error(f"Missing required columns in credit card data: {missing_columns} - rejecting file")
             return False
         
         if len(self.df) < 1:
             logging.error("Credit card billing DataFrame has no rows - rejecting file")
-            email.send_email(
-                subject="Card Check Validation",
-                body="Credit card billing DataFrame has no rows - rejecting file"
-            )
             return False
             
         expected_dtypes = {
@@ -57,10 +43,6 @@ class CardCheck(SchemaCheck):
                 type_errors.append(f"{col} (expected {dtype}, got {self.df[col].dtype})")
         
         if type_errors:
-            email.send_email(
-                subject="Card Check Validation",
-                body="Type mismatches in credit card data: - rejecting file"
-            )
             logging.error(f"Type mismatches in credit card data: {', '.join(type_errors)} - rejecting file")
             return False
             

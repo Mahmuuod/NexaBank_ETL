@@ -62,7 +62,7 @@ def app(dir: str, df=None):
             file_name = "Card"
         elif LoansCheck(new_df).check():
             new_df = transform.loans_transformations(new_df)
-            state, key = Encrypt.encrypt(new_df, "loan_reason")  # encrypt
+            state, key = Encrypt.encrypt(new_df, "loan_reason") 
             file_name = "Loan"
 
         elif CustomerCheck(new_df).check():
@@ -75,6 +75,11 @@ def app(dir: str, df=None):
             new_df = transform.transactions_transformations(new_df)
             file_name = "Transaction"
         else:
+            email = EmailSender()
+            email.send_email(
+                subject="Schema Check Validation",
+                body="Schema doesnt match - rejecting file"
+            )
             new_df = pd.DataFrame()
             print("Invalid Schema")
 
@@ -143,7 +148,10 @@ def main():
         while True:
             if event_handler.captured_path:
                 file = event_handler.captured_path.get()
-
+                email.send_email(
+                subject="Pipline Failed",
+                body="Pipline failed - retrying"
+                )
                 print(f"Detected file path: {file}")
                 time.sleep(3)  # Wait for 1 second to ensure the file is fully written
                 changed_file = Path(file).as_posix()
