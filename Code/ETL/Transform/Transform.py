@@ -1,5 +1,6 @@
 from datetime import datetime
 import pandas as pd
+from Code.logs import *
 from Utilities.Encryption import *
 
 class Transformer:
@@ -30,11 +31,13 @@ class Transformer:
         dataframe['total'] = dataframe['amount_due'] + dataframe['fine']
         return dataframe
     
+    @log_start_end
     def transform_billing(self, dataframe):
         dataframe = self.transform_billing_fully_paid(dataframe)
         dataframe = self.transform_billing_dept(dataframe)
         dataframe = self.transform_billing_late_days(dataframe)
         dataframe = self.transform_billing_total(dataframe)
+        logging.info("Billing Data is Transformed Successfully")
         return dataframe
     
     def add_data_quality_columns(self, df)-> pd.DataFrame:
@@ -44,7 +47,7 @@ class Transformer:
         df['partition_hour'] = self.partition_hour
         return df
     
-    
+    @log_start_end
     def customer_transformations(self,df:pd.DataFrame)-> pd.DataFrame:
         df["tenure"]=self.processing_time.year - pd.to_datetime(df["account_open_date"]).dt.year
 
@@ -56,15 +59,20 @@ class Transformer:
             else:
                 return "Normal"
         df["customer_segment"]=df["tenure"].map(loyality)
+        logging.info("Customer Data is Transformed Successfully")
         df=self.add_data_quality_columns(df)
+        logging.info("Quality Column is added to Customer Successfully")
         return df
     
+    @log_start_end
     def tickets_transformations(self,df:pd.DataFrame)-> pd.DataFrame:
        df["age"]=self.processing_time - pd.to_datetime(df["complaint_date"])
+       logging.info("Tickets Data is Transformed Successfully")
        df=self.add_data_quality_columns(df)
-
+       logging.info("Quality Column is added to Tickets Successfully")
        return df["age"].dt.days
 
+    @log_start_end
     def transactions_transformations(self,df:pd.DataFrame)-> pd.DataFrame:
        def safe_int(x):
         try:
@@ -74,20 +82,26 @@ class Transformer:
         
        df["cost"]=(df["transaction_amount"].apply(safe_int)*0.001)+0.50
        df["total_amount"]=df["transaction_amount"]+df["cost"]
+       logging.info("transactions Data is Transformed Successfully")
        df=self.add_data_quality_columns(df)
+       logging.info("Quality Column is added to transactions Successfully")
+
 
        return df
- 
+    
+    @log_start_end
     def loans_transformations(self,df:pd.DataFrame)-> pd.DataFrame:
        encrypt=Encryption()
        df["age"]=self.processing_time-pd.to_datetime(df["utilization_date"])
        df["age"]=df["age"].dt.days
        df["annual_cost"]=(df["amount_utilized"]/5)+1000
+       logging.info("loans Data is Transformed Successfully")
        df=self.add_data_quality_columns(df)
+       logging.info("Quality Column is added to loans Successfully")
        encrypt.encrypt(df,"loan_reason") 
+       logging.info("loan reason in encyrpted")
        return df
     
-
 
 
     
