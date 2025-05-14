@@ -1,6 +1,10 @@
-from ValidationCheck.SchemaCheck import SchemaCheck
-from logs import log_start_end  # Import the decorator
 import logging
+from .SchemaCheck import SchemaCheck
+import sys
+import os
+sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
+import logs 
+from logs import log_start_end
 
 class CustomerCheck(SchemaCheck):
 
@@ -24,12 +28,12 @@ class CustomerCheck(SchemaCheck):
             return False
             
         expected_dtypes = {
-            'customer_id': 'int64',
+            'customer_id': 'object',
             'name': 'object',
             'gender': 'object',
             'age': 'int64',
             'city': 'object',
-            'account_open_date': 'datetime64[ns]',
+            'account_open_date': 'object',
             'product_type': 'object',
             'customer_tier': 'object'
         }

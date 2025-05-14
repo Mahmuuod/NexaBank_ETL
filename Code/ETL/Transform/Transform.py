@@ -1,5 +1,7 @@
 from datetime import datetime
 import pandas as pd
+from Utilities.Encryption import *
+
 class Transformer:
     def __init__(self):
         self.processing_time = datetime.now()
@@ -11,12 +13,10 @@ class Transformer:
         dataframe['fully_paid'] = dataframe['amount_due'] == dataframe['amount_paid']
         dataframe['payment_status'] = dataframe['fully_paid'].apply(lambda x: 'Paid' if x == True else 'Unpaid')
         dataframe.drop(columns=['fully_paid'], inplace=True)
-        print(dataframe)
         return dataframe
     
     def transform_billing_dept(self, dataframe):
         dataframe['debt'] = dataframe['amount_due'] - dataframe['amount_paid']
-        print(dataframe)
         return dataframe
     
     def transform_billing_late_days(self, dataframe):
@@ -24,12 +24,10 @@ class Transformer:
         dataframe['late_days'] = (days - 1)
         dataframe['fine'] = dataframe['late_days'] * 5.15
         dataframe['fine'] = dataframe['fine'].round(2)
-        print(dataframe)
         return dataframe
     
     def transform_billing_total(self, dataframe):
         dataframe['total'] = dataframe['amount_due'] + dataframe['fine']
-        print(dataframe)
         return dataframe
     
     def transform_billing(self, dataframe):
@@ -81,12 +79,12 @@ class Transformer:
        return df
  
     def loans_transformations(self,df:pd.DataFrame)-> pd.DataFrame:
-
+       encrypt=Encryption()
        df["age"]=self.processing_time-pd.to_datetime(df["utilization_date"])
        df["age"]=df["age"].dt.days
        df["annual_cost"]=(df["amount_utilized"]/5)+1000
        df=self.add_data_quality_columns(df)
-
+       encrypt.encrypt(df,"loan_reason") 
        return df
     
 

@@ -40,7 +40,7 @@ for i in range(1, NUM_CUSTOMERS + 1):
     customer_profiles['customer_id'].append(f'CUST{i:06d}')
 
 customer_profiles_df = pd.DataFrame(customer_profiles)
-customer_profiles_df.to_csv('./customer_profiles.csv', index=False)
+customer_profiles_df.to_csv('./incoming_data/2025-04-18/15/customer_profiles.csv', index=False)
 
 # 2. Generate support_tickets.csv
 support_tickets = {
@@ -55,7 +55,7 @@ for i, cust_id in enumerate(sampled_customers):
     support_tickets['severity'].append(random.randint(0, 10))
 
 support_tickets_df = pd.DataFrame(support_tickets)
-support_tickets_df.to_csv('./support_tickets.csv', index=False)
+support_tickets_df.to_csv('./incoming_data/2025-04-18/15/support_tickets.csv', index=False)
 
 # 3. Generate credit_cards_billing.csv (2 months)
 credit_cards_billing = {
@@ -78,7 +78,7 @@ for cust_id in customer_profiles_df['customer_id']:
         credit_cards_billing['payment_date'].append(payment_date)
 
 billing_df = pd.DataFrame(credit_cards_billing)
-billing_df.to_csv('./credit_cards_billing.csv', index=False)
+billing_df.to_csv('./incoming_data/2025-04-18/15/credit_cards_billing.csv', index=False)
 
 # 4. Generate data for Money Transfers or Purchases
 transactions_data = []
@@ -92,7 +92,7 @@ for cust_id in customer_profiles_df['customer_id']:
         'transaction_date': str(fake.date_between(start_date='-1y', end_date='today'))
     })
 
-with open('./transactions.json', 'w') as f:
+with open('./incoming_data/2025-04-18/15/transactions.json', 'w') as f:
     json.dump(transactions_data, f, indent=4)
 
 
@@ -104,7 +104,7 @@ loan_types = ["Personal Loan", "Auto Loan", "Home Loan",
               "Credit Card Loan", "Education Loan", "Business Loan",
               "Medical Loan", "Travel Loan", "Top-Up Loan", "Loan Against Deposit"]
 
-messages_file = open("./loans.txt", "w")
+messages_file = open("./incoming_data/2025-04-18/15/loans.txt", "w")
 messages_file.write("customer_id|loan_type|amount_utilized|utilization_date|loan_reason\n")
 
 for i in range(1000):

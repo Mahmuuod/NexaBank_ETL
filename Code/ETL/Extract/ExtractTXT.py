@@ -1,34 +1,22 @@
 import pandas as pd
-from Extract.Extractor import Extractor
+from .Extractor import Extractor
 
 class ExtractTXT(Extractor):
     """Class For Extracting TXT"""
 
-    def __init__(self,fileDir):
-        self.fileDir=fileDir
+    def __init__(self):
+        pass
 
-    def extract(self) -> pd.DataFrame:
+    def extract(self,fileDir:str,sep:str) -> pd.DataFrame:
         try:
-            # Read the TXT file
-            with open(self.fileDir, 'r') as file:
-                lines = file.readlines()
+            # Read the txt file into a DataFrame
+            df = pd.read_csv(fileDir,sep=sep)
             
-            # Process lines into a list of dictionaries
-            data = []
-            headers = lines[0].strip().split() if lines else []
-            
-            for line in lines[1:]:
-                values = line.strip().split()
-                if len(values) == len(headers):
-                    row_dict = dict(zip(headers, values))
-                    data.append(row_dict)
-            
-            # Convert to DataFrame
-            if data:
-                return pd.DataFrame(data)
-            else:
-                raise ValueError("No valid data found in the TXT file")
+            if df.empty:
+                raise ValueError("No data found in the txt file")
                 
+            return df
+            
         except Exception as e:
-            print(f"Error extracting TXT data: {str(e)}")
+            print(f"Error extracting txt data: {str(e)}")
             raise

@@ -1,14 +1,14 @@
 import pandas as pd
-from Extract.Extractor import Extractor
+from .Extractor import Extractor
 
 class ExtractCSV(Extractor):
-    def __init__(self,fileDir):
-        self.fileDir=fileDir
+    def __init__(self):
+        pass
 
-    def extract(self) -> pd.DataFrame:
+    def extract(self,fileDir:str) -> pd.DataFrame:
         try:
             # Read the CSV file into a DataFrame
-            df = pd.read_csv(self.fileDir)
+            df = pd.read_csv(fileDir)
             
             if df.empty:
                 raise ValueError("No data found in the CSV file")

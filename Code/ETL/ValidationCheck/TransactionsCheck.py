@@ -1,6 +1,10 @@
-from ValidationCheck.SchemaCheck import SchemaCheck
-from logs import log_start_end
 import logging
+from .SchemaCheck import SchemaCheck
+import sys
+import os
+sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
+import logs 
+from logs import log_start_end
 
 class TransactionsCheck(SchemaCheck):
 
@@ -26,8 +30,8 @@ class TransactionsCheck(SchemaCheck):
         expected_dtypes = {
             'sender': 'object',  
             'receiver': 'object', 
-            'transaction_amount': 'float64',
-            'transaction_date': 'datetime64[ns]'
+            'transaction_amount': 'int64',
+            'transaction_date': 'object'
         }
         
         type_errors = []

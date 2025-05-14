@@ -1,6 +1,10 @@
-from ValidationCheck.SchemaCheck import SchemaCheck
-from logs import log_start_end
 import logging
+from .SchemaCheck import SchemaCheck
+import sys
+import os
+sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
+import logs 
+from logs import log_start_end
 
 class CardCheck(SchemaCheck):
 
@@ -23,12 +27,12 @@ class CardCheck(SchemaCheck):
             return False
             
         expected_dtypes = {
-            'bill_id': 'int64',
-            'customer_id': 'int64',
+            'bill_id': 'object',
+            'customer_id': 'object',
             'month': 'object',
             'amount_due': 'float64',
             'amount_paid': 'float64',
-            'payment_date': 'datetime64[ns]'
+            'payment_date': 'object'
         }
         
         type_errors = []
@@ -42,3 +46,5 @@ class CardCheck(SchemaCheck):
             
         logging.info("Credit card billing schema validation passed successfully")
         return True
+    
+

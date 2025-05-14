@@ -1,10 +1,6 @@
-encrypred_dir,key
-./incoming_data/2025-04-18/14/loans.txt,14
-./incoming_data/2025-04-18/14/loans.txt,23
-./incoming_data/2025-04-18/14/loans.txt,20
-./incoming_data/2025-04-18/14/loans.txt,4
-./incoming_data/2025-04-18/14/loans.txt,21
-./incoming_data/2025-04-18/14/loans.txt,22
-./incoming_data/2025-04-18/14/loans.txt,25
-./incoming_data/2025-04-18/14/loans.txt,2
-./incoming_data/2025-04-18/14/loans.txt,15
+dir,key
+D:/study/iti/Python/Final_Project/incoming_data/2025-04-18/14/loans.txt,15
+D:/study/iti/Python/Final_Project/incoming_data/2025-04-18/14/loans.txt,16
+D:/study/iti/Python/Final_Project/incoming_data/2025-04-18/15/loans.txt,18
+D:/study/iti/Python/Final_Project/incoming_data/2025-04-18/15/loans.txt,14
+D:/study/iti/Python/Final_Project/incoming_data/2025-04-18/15/loans.txt,14

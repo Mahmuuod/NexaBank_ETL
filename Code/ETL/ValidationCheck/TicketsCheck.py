@@ -1,6 +1,10 @@
-from ValidationCheck.SchemaCheck import SchemaCheck
-from logs import log_start_end
 import logging
+from .SchemaCheck import SchemaCheck
+import sys
+import os
+sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
+import logs 
+from logs import log_start_end
 
 class TicketsCheck(SchemaCheck):
 
@@ -23,11 +27,11 @@ class TicketsCheck(SchemaCheck):
             return False
             
         expected_dtypes = {
-            'ticket_id': 'int64',
-            'customer_id': 'int64',
+            'ticket_id': 'object',
+            'customer_id': 'object',
             'complaint_category': 'object',
-            'complaint_date': 'datetime64[ns]',
-            'severity': 'object' 
+            'complaint_date': 'object',
+            'severity': 'int64' 
         }
         
         type_errors = []
