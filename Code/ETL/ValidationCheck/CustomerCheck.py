@@ -1,11 +1,12 @@
 import logging
-from .SchemaCheck import SchemaCheck
+# from .SchemaCheck import SchemaCheck
 import sys
 import os
-sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
-import logs 
-from logs import log_start_end
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../../../')))
+from Code.logs import *
 from Code.send_email import *
+from Code.ETL.Extract.ExtractCSV import *
+from Code.ETL.ValidationCheck.SchemaCheck import *
 
 class CustomerCheck(SchemaCheck):
 
@@ -67,3 +68,19 @@ class CustomerCheck(SchemaCheck):
             
         logging.info("Schema validation passed successfully")
         return True
+
+import pandas as pd
+def main():
+    file_path = "E:\\ITI 9 Months\\Python\\NexaBank_ETL\\incoming_data\\2025-04-18\\14\\customer_profiles.csv"  
+    extractor = ExtractCSV()
+    df = extractor.extract(file_path)
+    print("Extracted Data:")
+    print(df.head())  
+    # Run CardCheck
+    checker = CustomerCheck(df)
+    result = checker.check()
+
+    print("Check passed:", result)
+
+if __name__ == "__main__":
+    main()

@@ -2,11 +2,10 @@ import logging
 from .SchemaCheck import SchemaCheck
 import sys
 import os
-sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
-import logs 
-from logs import log_start_end
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../../../')))
+from Code.logs import *
 from Code.send_email import *
-
+from Code.ETL.ValidationCheck.SchemaCheck import *
 
 class TransactionsCheck(SchemaCheck):
 

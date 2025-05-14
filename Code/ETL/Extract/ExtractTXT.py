@@ -1,5 +1,9 @@
+import time
+import os
+import sys
 import pandas as pd
-from .Extractor import Extractor
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../../../')))
+from Code.ETL.Extract.Extractor import Extractor
 from Code.logs import *
 
 class ExtractTXT(Extractor):
@@ -26,3 +30,18 @@ class ExtractTXT(Extractor):
 
             print(f"Error extracting txt data: {str(e)}")
             raise
+
+# def main():
+#     file_path = "E:\\ITI 9 Months\\Python\\NexaBank_ETL\\incoming_data\\2025-04-18\\14\\loans.txt" 
+#     separator = "|"  
+
+#     extractor = ExtractTXT()
+#     try:
+#         df = extractor.extract(file_path, separator)
+#         print("Extracted Data:")
+#         print(df.head())
+#     except Exception as e:
+#         print(f"Failed to extract TXT data: {e}")
+
+# if __name__ == "__main__":
+#     main()

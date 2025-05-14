@@ -1,7 +1,9 @@
-import pandas as pd
-from .Extractor import *
-import os
 import time
+import os
+import sys
+import pandas as pd
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../../../')))
+from Code.ETL.Extract.Extractor import Extractor
 from Code.logs import *
 
 class ExtractJSON(Extractor):
@@ -46,3 +48,17 @@ class ExtractJSON(Extractor):
             logging.error(f"Error extracting JSON data: {str(e)}")
             print(f"Error extracting JSON data: {str(e)}")
             raise
+
+# def main():
+#     file_path = "E:\\ITI 9 Months\\Python\\NexaBank_ETL\\incoming_data\\2025-04-18\\14\\transactions.json"  # Replace with actual JSON file path
+
+#     extractor = ExtractJSON()
+#     try:
+#         df = extractor.extract(file_path)
+#         print("Extracted Data:")
+#         print(df.head())
+#     except Exception as e:
+#         print(f"Extraction failed: {e}")
+
+# if __name__ == "__main__":
+#     main()

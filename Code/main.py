@@ -1,6 +1,8 @@
 import time
+import sys
+import os
+from logs import *
 from ETL import *
-from Watch_Dog import *
 from ETL.Transform.Transform import *
 import pandas as pd
 from Utilities.churn import *
@@ -15,6 +17,8 @@ from ETL.ValidationCheck.TicketsCheck import *
 from ETL.ValidationCheck.TransactionsCheck import *
 import threading
 from pathlib import Path
+from Code.Watch_Dog import *
+
 
 landing=os.getcwd()+'/incoming_data'
 write=LoadCSV()
