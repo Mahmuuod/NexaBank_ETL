@@ -1440,3 +1440,64 @@ Actual columns found: ['customer_id', 'name', 'gender', 'age', 'city', 'account_
 2025-05-14 17:42:05 - INFO - Started check at 2025-05-14 17:42:05.415172
 2025-05-14 17:42:05 - INFO - Schema validation passed successfully
 2025-05-14 17:42:05 - INFO - Finished check at 2025-05-14 17:42:05.415920
+2025-05-14 17:43:50 - INFO - Started check at 2025-05-14 17:43:50.046179
+2025-05-14 17:43:50 - ERROR - Missing required columns in credit card data: ['bill_id', 'month', 'amount_due', 'amount_paid', 'payment_date'] - rejecting file
+2025-05-14 17:43:50 - INFO - Finished check at 2025-05-14 17:43:50.046626
+2025-05-14 17:43:50 - INFO - Started check at 2025-05-14 17:43:50.046684
+2025-05-14 17:43:50 - ERROR - Missing required columns in loans data: ['loan_type', 'amount_utilized', 'utilization_date', 'loan_reason'] - rejecting file
+Actual columns found: ['customer_id', 'name', 'gender', 'age', 'city', 'account_open_date', 'product_type', 'customer_tier']
+2025-05-14 17:43:50 - INFO - Finished check at 2025-05-14 17:43:50.047145
+2025-05-14 17:43:50 - INFO - Started check at 2025-05-14 17:43:50.047197
+2025-05-14 17:43:50 - INFO - Schema validation passed successfully
+2025-05-14 17:43:50 - INFO - Finished check at 2025-05-14 17:43:50.047542
+2025-05-14 17:43:56 - INFO - Started check at 2025-05-14 17:43:56.144832
+2025-05-14 17:43:56 - ERROR - Missing required columns in credit card data: ['bill_id', 'month', 'amount_due', 'amount_paid', 'payment_date'] - rejecting file
+2025-05-14 17:43:56 - INFO - Finished check at 2025-05-14 17:43:56.145058
+2025-05-14 17:43:56 - INFO - Started check at 2025-05-14 17:43:56.145180
+2025-05-14 17:43:56 - ERROR - Missing required columns in loans data: ['loan_type', 'amount_utilized', 'utilization_date', 'loan_reason'] - rejecting file
+Actual columns found: ['ticket_id', 'customer_id', 'complaint_category', 'complaint_date', 'severity']
+2025-05-14 17:43:56 - INFO - Finished check at 2025-05-14 17:43:56.145519
+2025-05-14 17:43:56 - INFO - Started check at 2025-05-14 17:43:56.145565
+2025-05-14 17:43:56 - ERROR - Missing required columns: ['name', 'gender', 'age', 'city', 'account_open_date', 'product_type', 'customer_tier'] - rejecting file
+2025-05-14 17:43:56 - INFO - Finished check at 2025-05-14 17:43:56.145669
+2025-05-14 17:43:56 - INFO - Started check at 2025-05-14 17:43:56.145709
+2025-05-14 17:43:56 - INFO - Support tickets schema validation passed successfully
+2025-05-14 17:43:56 - INFO - Finished check at 2025-05-14 17:43:56.145971
+2025-05-14 17:44:09 - INFO - Started check at 2025-05-14 17:44:09.779185
+2025-05-14 17:44:09 - INFO - Credit card billing schema validation passed successfully
+2025-05-14 17:44:09 - INFO - Finished check at 2025-05-14 17:44:09.779639
+2025-05-14 17:44:18 - INFO - Started check at 2025-05-14 17:44:18.541901
+2025-05-14 17:44:18 - ERROR - Missing required columns in credit card data: ['bill_id', 'customer_id', 'month', 'amount_due', 'amount_paid', 'payment_date'] - rejecting file
+2025-05-14 17:44:18 - INFO - Finished check at 2025-05-14 17:44:18.543255
+2025-05-14 17:44:18 - INFO - Started check at 2025-05-14 17:44:18.543466
+2025-05-14 17:44:18 - ERROR - Missing required columns in loans data: ['customer_id', 'loan_type', 'amount_utilized', 'utilization_date', 'loan_reason'] - rejecting file
+Actual columns found: ['sender', 'receiver', 'transaction_amount', 'transaction_date']
+2025-05-14 17:44:18 - INFO - Finished check at 2025-05-14 17:44:18.544381
+2025-05-14 17:44:18 - INFO - Started check at 2025-05-14 17:44:18.544446
+2025-05-14 17:44:18 - ERROR - Missing required columns: ['customer_id', 'name', 'gender', 'age', 'city', 'account_open_date', 'product_type', 'customer_tier'] - rejecting file
+2025-05-14 17:44:18 - INFO - Finished check at 2025-05-14 17:44:18.544599
+2025-05-14 17:44:18 - INFO - Started check at 2025-05-14 17:44:18.544682
+2025-05-14 17:44:18 - ERROR - Missing required columns in support tickets: ['ticket_id', 'customer_id', 'complaint_category', 'complaint_date', 'severity'] - rejecting file
+2025-05-14 17:44:18 - INFO - Finished check at 2025-05-14 17:44:18.544844
+2025-05-14 17:44:18 - INFO - Started check at 2025-05-14 17:44:18.544907
+2025-05-14 17:44:18 - INFO - Transactions schema validation passed successfully
+2025-05-14 17:44:18 - INFO - Finished check at 2025-05-14 17:44:18.545253
+2025-05-14 17:44:24 - INFO - Started check at 2025-05-14 17:44:24.620383
+2025-05-14 17:44:24 - ERROR - Missing required columns in credit card data: ['bill_id', 'month', 'amount_due', 'amount_paid', 'payment_date'] - rejecting file
+2025-05-14 17:44:24 - INFO - Finished check at 2025-05-14 17:44:24.620735
+2025-05-14 17:44:24 - INFO - Started check at 2025-05-14 17:44:24.620817
+2025-05-14 17:44:24 - INFO - Loans schema validation passed successfully
+2025-05-14 17:44:24 - INFO - Finished check at 2025-05-14 17:44:24.621456
+2025-05-14 17:47:38 - INFO - Started check at 2025-05-14 17:47:38.131785
+2025-05-14 17:47:38 - INFO - Credit card billing schema validation passed successfully
+2025-05-14 17:47:38 - INFO - Finished check at 2025-05-14 17:47:38.132284
+2025-05-14 17:47:45 - INFO - Started check at 2025-05-14 17:47:45.310749
+2025-05-14 17:47:45 - ERROR - Missing required columns in credit card data: ['bill_id', 'month', 'amount_due', 'amount_paid', 'payment_date'] - rejecting file
+2025-05-14 17:47:45 - INFO - Finished check at 2025-05-14 17:47:45.311054
+2025-05-14 17:47:45 - INFO - Started check at 2025-05-14 17:47:45.311111
+2025-05-14 17:47:45 - ERROR - Missing required columns in loans data: ['loan_type', 'amount_utilized', 'utilization_date', 'loan_reason'] - rejecting file
+Actual columns found: ['customer_id', 'name', 'gender', 'age', 'city', 'account_open_date', 'product_type', 'customer_tier']
+2025-05-14 17:47:45 - INFO - Finished check at 2025-05-14 17:47:45.311589
+2025-05-14 17:47:45 - INFO - Started check at 2025-05-14 17:47:45.311656
+2025-05-14 17:47:45 - INFO - Schema validation passed successfully
+2025-05-14 17:47:45 - INFO - Finished check at 2025-05-14 17:47:45.312024
